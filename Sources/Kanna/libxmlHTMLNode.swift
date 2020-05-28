@@ -175,6 +175,11 @@ final class libxmlHTMLNode: XMLElement {
         xmlAddNextSibling(nodePtr, node.nodePtr)
     }
 
+    func addChildCDATA(_ data: String) {
+        let ptr = xmlNewCDataBlock(docPtr, data, Int32(data.count))
+        xmlAddChild(nodePtr, ptr)
+    }
+    
     func addChild(_ node: XMLElement) {
         guard let node = node as? libxmlHTMLNode else {
             return
