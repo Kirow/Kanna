@@ -82,22 +82,22 @@ class KannaTutorialsTests: XCTestCase {
         if let xml = try? String(contentsOfFile: filePath, encoding: .utf8),
             let doc = try? XML(xml: xml, encoding: .utf8) {
             for (i, node) in doc.xpath("//name").enumerated() {
-                XCTAssert(node.text! == testVersionData[i])
+                XCTAssert(node.content! == testVersionData[i])
             }
 
             let nodes = doc.xpath("//name")
-            XCTAssert(nodes[0].text! == testVersionData[0])
+            XCTAssert(nodes[0].content! == testVersionData[0])
 
             for (i, node) in doc.xpath("//ios//name").enumerated() {
-                XCTAssert(node.text! == testVersionDataIOS[i])
+                XCTAssert(node.content! == testVersionDataIOS[i])
             }
 
             for (i, node) in doc.css("ios name").enumerated() {
-                XCTAssert(node.text! == testVersionDataIOS[i])
+                XCTAssert(node.content! == testVersionDataIOS[i])
             }
 
-            XCTAssert(doc.css("tvos name").first!.text == "tvOS 10.0")
-            XCTAssert(doc.at_css("tvos name")!.text == "tvOS 10.0")
+            XCTAssert(doc.css("tvos name").first!.content == "tvOS 10.0")
+            XCTAssert(doc.at_css("tvos name")!.content == "tvOS 10.0")
         }
     }
 
@@ -119,13 +119,13 @@ class KannaTutorialsTests: XCTestCase {
 
         if let doc = try? XML(xml: xml, encoding: .utf8) {
             for (i, node) in doc.xpath("//github:title", namespaces: ["github": "https://github.com/"]).enumerated() {
-                XCTAssert(node.text! == testLibrariesDataGitHub[i])
+                XCTAssert(node.content! == testLibrariesDataGitHub[i])
             }
         }
 
         if let doc = try? XML(xml: xml, encoding: .utf8) {
             for (i, node) in doc.xpath("//bitbucket:title", namespaces: ["bitbucket": "https://bitbucket.org/"]).enumerated() {
-                XCTAssert(node.text! == testLibrariesDataBitbucket[i])
+                XCTAssert(node.content! == testLibrariesDataBitbucket[i])
             }
         }
     }

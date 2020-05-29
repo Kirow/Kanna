@@ -58,24 +58,24 @@ class KannaHTMLTests: XCTestCase {
             let repoName = ["Kanna", "Swift-HTML-Parser"]
             for (index, repo) in doc.xpath("//span[@class='repo']").enumerated() {
                 XCTAssert(repo["title"] == repoName[index])
-                XCTAssert(repo.text == repoName[index])
+                XCTAssert(repo.content == repoName[index])
             }
 
             if let snTable = doc.at_css("table[id='sequence number']") {
                 let alphabet = ["a", "b", "c"]
                 for (indexTr, tr) in snTable.css("tr").enumerated() {
                     for (indexTd, td) in tr.css("td").enumerated() {
-                        XCTAssert(td.text == "\(alphabet[indexTd])\(indexTr)")
+                        XCTAssert(td.content == "\(alphabet[indexTd])\(indexTr)")
                     }
                 }
             }
 
             if let starTable = doc.at_css("table[id='star table']"),
-                   let allStarStr = starTable.at_css("tfoot > tr > td:nth-child(2)")?.text,
+                   let allStarStr = starTable.at_css("tfoot > tr > td:nth-child(2)")?.content,
                    let allStar = Int(allStarStr) {
                     var count = 0
                     for starNode in starTable.css("tbody > tr > td:nth-child(2)") {
-                        if let starStr = starNode.text,
+                        if let starStr = starNode.content,
                                let star    = Int(starStr) {
                             count += star
                         }
@@ -144,13 +144,13 @@ class KannaHTMLTests: XCTestCase {
             XCTFail("Next sibling not found")
             return
         }
-        XCTAssert(next.text == "third")
+        XCTAssert(next.content == "third")
 
         guard let previous = node.previousSibling else {
             XCTFail("Previous sibling not found")
             return
         }
-        XCTAssert(previous.text == "first")
+        XCTAssert(previous.content == "first")
     }
 
     func testEscapeId() {
@@ -161,7 +161,7 @@ class KannaHTMLTests: XCTestCase {
                 return
         }
 
-        XCTAssert(node.text == "target")
+        XCTAssert(node.content == "target")
     }
 
     func testOutOfDocument() {
@@ -184,7 +184,7 @@ class KannaHTMLTests: XCTestCase {
         }
 
         for element in elements {
-            XCTAssert(element.text! == "def")
+            XCTAssert(element.content! == "def")
         }
     }
 
@@ -220,8 +220,8 @@ class KannaHTMLTests: XCTestCase {
             XCTAssertNil(doc.at_xpath("//head")?.at_xpath("//h1"))
             XCTAssertNil(doc.at_xpath("//head")?.at_xpath("//body"))
             XCTAssertNil(doc.at_xpath("//body")?.at_xpath("//title"))
-            XCTAssertEqual(doc.at_xpath("//body/div[@id='2']//h1")?.text, "test header 2")
-            XCTAssertEqual(doc.at_xpath("//body/div[@id='2']")?.at_xpath("//h1")?.text, "test header 2")
+            XCTAssertEqual(doc.at_xpath("//body/div[@id='2']//h1")?.content, "test header 2")
+            XCTAssertEqual(doc.at_xpath("//body/div[@id='2']")?.at_xpath("//h1")?.content, "test header 2")
         } catch {
             XCTFail("Abnormal test data")
         }

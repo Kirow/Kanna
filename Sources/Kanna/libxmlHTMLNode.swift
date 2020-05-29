@@ -179,13 +179,25 @@ final class libxmlHTMLNode: XMLElement {
         let ptr = xmlNewCDataBlock(docPtr, data, Int32(data.count))
         xmlAddChild(nodePtr, ptr)
     }
-    
+
     func addChild(_ node: XMLElement) {
         guard let node = node as? libxmlHTMLNode else {
             return
         }
         xmlUnlinkNode(node.nodePtr)
         xmlAddChild(nodePtr, node.nodePtr)
+    }
+
+    func addChild(name: String, content: String?) -> XMLElement {
+        guard let doc = doc, let node = xmlAddChild(nodePtr, xmlNewNode(nodePtr.pointee.ns, name)) else {
+            fatalError()
+        }
+        
+        if let content = content {
+            xmlNodeSetContent(node, content)
+        }
+
+        return libxmlHTMLNode(document: doc, docPtr: docPtr, node: node)
     }
 
     func removeChild(_ node: XMLElement) {

@@ -150,7 +150,6 @@ public extension Searchable {
 SearchableNode
 */
 public protocol SearchableNode: Searchable {
-    var text: String? { get }
     var toHTML: String? { get }
     var toXML: String? { get }
     var innerHTML: String? { get }
@@ -169,6 +168,7 @@ public protocol XMLElement: SearchableNode {
     func addPrevSibling(_ node: XMLElement)
     func addNextSibling(_ node: XMLElement)
     func addChildCDATA(_ data: String)
+    func addChild(name: String, content: String?) -> XMLElement
     func addChild(_ node: XMLElement)
     func removeChild(_ node: XMLElement)
     var nextSibling: XMLElement? { get }
@@ -219,7 +219,7 @@ public final class XMLNodeSet {
 
     public var text: String? {
         let html = nodes.reduce("") {
-            if let text = $1.text {
+            if let text = $1.content {
                 return $0 + text
             }
             return $0

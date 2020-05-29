@@ -146,8 +146,6 @@ final class libxmlHTMLDocument: HTMLDocument {
     private var url: String?
     private var encoding: String.Encoding
 
-    var text: String? { rootNode?.text }
-
     var toHTML: String? {
         let buf       = xmlBufferCreate()
         let outputBuf = xmlOutputBufferCreateBuffer(buf, nil)
@@ -183,7 +181,7 @@ final class libxmlHTMLDocument: HTMLDocument {
     }
 
     var content: String? {
-        get { text }
+        get { rootNode?.content }
         set { rootNode?.content = newValue }
     }
 
@@ -216,7 +214,7 @@ final class libxmlHTMLDocument: HTMLDocument {
         xmlFreeDoc(docPtr)
     }
 
-    var title: String? { at_xpath("//title")?.text }
+    var title: String? { at_xpath("//title")?.content }
     var head: XMLElement? { at_xpath("//head") }
     var body: XMLElement? { at_xpath("//body") }
 
@@ -240,8 +238,6 @@ final class libxmlXMLDocument: XMLDocument {
     private var xml: String
     private var url: String?
     private var encoding: String.Encoding
-
-    var text: String? { rootNode?.text }
 
     var toHTML: String? {
         let buf       = xmlBufferCreate()
@@ -278,7 +274,7 @@ final class libxmlXMLDocument: XMLDocument {
     }
 
     var content: String? {
-        get { text }
+        get { rootNode?.content }
         set { rootNode?.content = newValue }
     }
 

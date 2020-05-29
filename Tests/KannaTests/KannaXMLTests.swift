@@ -41,20 +41,20 @@ class KannaXMLTests: XCTestCase {
             ]
 
             if let author = doc.at_xpath("//o:Author", namespaces: namespaces) {
-                XCTAssert(author.text == "_tid_")
+                XCTAssert(author.content == "_tid_")
             } else {
                 XCTAssert(false, "Author not found.")
             }
 
             if let createDate = doc.at_xpath("//o:Created", namespaces: namespaces) {
-                XCTAssert(createDate.text == "2015-07-26T06:00:00Z")
+                XCTAssert(createDate.content == "2015-07-26T06:00:00Z")
             } else {
                 XCTAssert(false, "Create date not found.")
             }
 
             for row in doc.xpath("//ss:Row", namespaces: namespaces) {
                 for cell in row.xpath("//ss:Data", namespaces: namespaces) {
-                    print(cell.text!)
+                    print(cell.content!)
                 }
             }
         } else {
